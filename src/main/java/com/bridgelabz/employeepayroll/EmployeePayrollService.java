@@ -1,49 +1,60 @@
 package com.bridgelabz.employeepayroll;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 // This class contains the business logic for Employee Payroll
 public class EmployeePayrollService {
 
-    // List to store employee records
-    private List<EmployeePayrollData> employeePayrollList;
+    // Store employees
+    private List<EmployeePayrollData> employeeList = new ArrayList<>();
 
-    // Constructor to initialize employee list
-    public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
-        this.employeePayrollList = employeePayrollList;
+    // Add employee
+    public void addEmployee(EmployeePayrollData employee) {
+        employeeList.add(employee);
     }
 
-    // Reads employee details from the console
-    public void readEmployeePayrollData(Scanner scanner) {
+    // Write employee data into file
+    public void writeEmployeePayroll() {
 
-        System.out.print("Enter Employee ID : ");
-        int id = scanner.nextInt();
-        scanner.nextLine();   // Consume newline
+        try {
 
-        System.out.print("Enter Employee Name : ");
-        String name = scanner.nextLine();
+            // Create folder if not exists
+            Path folder = Paths.get("PayrollFiles");
 
-        System.out.print("Enter Employee Salary : ");
-        double salary = scanner.nextDouble();
+            if (!Files.exists(folder)) {
+                Files.createDirectories(folder);
+            }
 
-        // Create Employee object
-        EmployeePayrollData employee =
-                new EmployeePayrollData(id, name, salary);
+            // File path
+            Path file = folder.resolve("employee-payroll.txt");
 
-        // Add employee to the list
-        employeePayrollList.add(employee);
-    }
+            // List of lines
+            List<String> lines = new ArrayList<>();
 
-    // Writes employee details to the console
-    public void writeEmployeePayrollData() {
+            // Convert employee objects into text
+            for (EmployeePayrollData employee : employeeList) {
+                lines.add(employee.toString());
+            }
 
-        System.out.println("\nWriting Employee Payroll To Console\n");
+            // Write into file
+            Files.write(file, lines);
 
-        for (EmployeePayrollData employee : employeePayrollList) {
-            System.out.println(employee);
+            System.out.println("Employee Payroll Written Successfully.");
+
+            // Count entries
+            System.out.println("Number of Employees : "
+                    + employeeList.size());
+
+        } catch (IOException e) {
+
+            System.out.println(e.getMessage());
+
         }
     }
-
-
 
 }

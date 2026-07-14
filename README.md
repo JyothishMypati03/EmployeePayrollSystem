@@ -1,24 +1,25 @@
-# Java IO - UC3: Watch Service
+# Java IO - UC4: Write Employee Payroll to a File
 
 ## Objective
 
-Implement a Java program to monitor a directory for file system changes using the Java NIO `WatchService` API.
+Implement a Java program to store **Employee Payroll** information in a file using the **Java NIO (New Input/Output) API**.
 
-The application continuously watches a specified directory and detects the following events:
-
-- File Creation
-- File Modification
-- File Deletion
+The application creates Employee Payroll objects, writes them to a text file, and verifies the write operation by counting the number of employee entries.
 
 ---
 
 # Problem Statement
 
-In many real-world applications, it is important to monitor changes in a directory.
+The Employee Payroll application currently stores employee information only in memory.
 
-Instead of repeatedly checking the folder manually, Java provides the **WatchService** API to automatically detect file system events.
+To make the data persistent, the application should write employee payroll details into a file using Java NIO.
 
-This use case demonstrates how to watch a directory and receive notifications whenever files are created, modified, or deleted.
+This use case demonstrates how to:
+
+- Create Employee Payroll objects.
+- Store employee data in a collection.
+- Write employee payroll data into a text file.
+- Count the number of employee records written to the file.
 
 ---
 
@@ -35,28 +36,55 @@ EmployeePayrollSystem
 │                   └── employeepayroll
 │                       ├── EmployeePayrollData.java
 │                       ├── EmployeePayrollService.java
-│                       ├── EmployeePayrollSystem.java
-│                       └── WatchServiceDemo.java
+│                       └── EmployeePayrollSystem.java
+│
+├── PayrollFiles
+│   └── employee-payroll.txt
 │
 ├── README.md
-└── .gitignore
+└── pom.xml
 ```
 
 ---
 
-# Class
+# Classes
 
-## WatchServiceDemo
+## EmployeePayrollData
 
 ### Responsibilities
 
-- Create a directory if it does not exist.
-- Create a WatchService object.
-- Register a directory for monitoring.
-- Detect file creation events.
-- Detect file modification events.
-- Detect file deletion events.
-- Continuously monitor the directory for changes.
+- Store employee information.
+- Provide a constructor.
+- Convert employee details into a string using the `toString()` method.
+
+### Fields
+
+- Employee ID
+- Employee Name
+- Employee Salary
+
+---
+
+## EmployeePayrollService
+
+### Responsibilities
+
+- Store employee objects in a list.
+- Add employees to the payroll.
+- Create the payroll directory if it does not exist.
+- Write employee payroll details into a text file.
+- Count the number of employee records.
+
+---
+
+## EmployeePayrollSystem
+
+### Responsibilities
+
+- Start the application.
+- Create employee payroll objects.
+- Add employees to the payroll service.
+- Write employee payroll data to the file.
 
 ---
 
@@ -64,91 +92,93 @@ EmployeePayrollSystem
 
 ## Path
 
-Represents the location of the directory to monitor.
+Represents the location of a file or directory.
 
 Example:
 
 ```java
-Path folder = Paths.get("PayrollFiles");
+Path file = Paths.get("PayrollFiles", "employee-payroll.txt");
 ```
 
 ---
 
-## FileSystems
+## Paths
 
-Creates the default file system.
+Creates `Path` objects.
 
 Example:
 
 ```java
-WatchService watchService =
-        FileSystems.getDefault().newWatchService();
+Paths.get("PayrollFiles");
 ```
 
 ---
 
-## WatchService
+## Files
 
-Monitors the registered directory for changes.
+Provides utility methods for file operations.
 
----
+Methods used:
 
-## WatchKey
-
-Represents a registration with the WatchService.
-
-It is used to retrieve file system events.
+- `exists()`
+- `createDirectories()`
+- `write()`
 
 ---
 
-## WatchEvent
+# Collection Used
 
-Represents an individual file system event.
+## ArrayList
 
-Supported events:
+```java
+List<EmployeePayrollData>
+```
 
-- ENTRY_CREATE
-- ENTRY_MODIFY
-- ENTRY_DELETE
+Stores multiple employee payroll objects before writing them to the file.
 
 ---
 
 # Features Implemented
 
-- Create directory if it does not exist.
-- Monitor a directory continuously.
-- Detect file creation.
-- Detect file modification.
-- Detect file deletion.
-- Display event details on the console.
+- Create Employee Payroll objects.
+- Store employee objects in a list.
+- Create a directory if it does not exist.
+- Write employee payroll data to a text file.
+- Count the number of employee entries.
+- Verify successful file creation.
 
 ---
 
 # Program Flow
 
 1. Start the application.
-2. Create the directory if it does not exist.
-3. Create a WatchService object.
-4. Register the directory with the WatchService.
-5. Wait for file system events.
-6. Detect Create, Modify, and Delete operations.
-7. Display the event on the console.
-8. Continue monitoring the directory.
+2. Create employee payroll objects.
+3. Store employees in a list.
+4. Create the payroll directory if it does not exist.
+5. Create the payroll file.
+6. Write employee payroll data into the file.
+7. Count the number of employee records.
+8. Display a success message.
+9. End the program.
 
 ---
 
 # Sample Output
 
 ```text
-Watching Folder:
+Employee Payroll Written Successfully.
 
-C:\Users\Jyothish\PayrollFiles
+Number of Employees : 3
+```
 
-ENTRY_CREATE -> employee.txt
+---
 
-ENTRY_MODIFY -> employee.txt
+# employee-payroll.txt
 
-ENTRY_DELETE -> employee.txt
+```text
+101,Jyothish,50000.0
+102,Rahul,45000.0
+103,Kiran,60000.0
 ```
 
 ---
@@ -158,30 +188,31 @@ ENTRY_DELETE -> employee.txt
 - Java NIO (`java.nio.file`)
 - Path
 - Paths
-- FileSystems
-- WatchService
-- WatchKey
-- WatchEvent
-- Loops
-- Exception Handling (`IOException`, `InterruptedException`)
+- Files
+- List
+- ArrayList
+- Constructors
+- Method Overriding (`toString()`)
+- Exception Handling (`IOException`)
 
 ---
 
 # Learning Outcome
 
-After completing UC3, you will understand how to:
+After completing UC4, you will understand how to:
 
-- Monitor a directory using Java.
-- Detect file system events.
-- Use the Java WatchService API.
-- Build applications that automatically respond to file changes.
+- Store Java objects in a collection.
+- Write data to a file using Java NIO.
+- Create directories programmatically.
+- Persist application data.
+- Verify file operations by counting employee entries.
 
 ---
 
 # Git Branch
 
 ```text
-feature/UC3-WatchService
+feature/UC4-WriteEmployeePayrollToFile
 ```
 
 ---
@@ -189,7 +220,5 @@ feature/UC3-WatchService
 # Commit Message
 
 ```text
-feat(UC3): implement watch service to monitor directory changes
+feat(UC4): write employee payroll data to file using Java NIO
 ```
-
----

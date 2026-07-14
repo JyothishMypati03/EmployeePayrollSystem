@@ -8,21 +8,26 @@ public class EmployeePayrollSystem {
 
     public  static  void  main(String[] args){
 
-        // Scanner object for reading user input
-        Scanner scanner = new Scanner(System.in);
+        EmployeePayrollService service = new EmployeePayrollService();
 
-        // List to store employee records
-        List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
+        // Add employees
+        service.addEmployee(new EmployeePayrollData(
+                101,
+                "Jyothish",
+                50000));
 
-        // Create Employee Payroll Service object
-        EmployeePayrollService employeePayrollService =
-                new EmployeePayrollService(employeePayrollList);
+        service.addEmployee(new EmployeePayrollData(
+                102,
+                "Rahul",
+                45000));
 
-        // Read employee details from console
-        employeePayrollService.readEmployeePayrollData(scanner);
+        service.addEmployee(new EmployeePayrollData(
+                103,
+                "Kiran",
+                60000));
 
-        // Display employee details on console
-        employeePayrollService.writeEmployeePayrollData();
+        // Write to file
+        service.writeEmployeePayroll();
 
 
     }
