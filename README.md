@@ -1,26 +1,24 @@
-# Java IO - UC2: File Operations
+# Java IO - UC3: Watch Service
 
 ## Objective
 
-Implement a Java program to demonstrate basic **File Operations** using the Java NIO (`java.nio.file`) package.
+Implement a Java program to monitor a directory for file system changes using the Java NIO `WatchService` API.
 
-The application performs the following operations:
+The application continuously watches a specified directory and detects the following events:
 
-- Check whether a file or directory exists.
-- Create a new directory.
-- Create an empty file.
-- Delete a file.
-- Verify that the file has been deleted.
-- List all files and directories.
-- List files based on a specific extension (for example, `.txt`).
+- File Creation
+- File Modification
+- File Deletion
 
 ---
 
 # Problem Statement
 
-Before storing Employee Payroll data in a file, the application should know how to perform basic file operations such as creating files, checking whether they exist, deleting files, and listing available files.
+In many real-world applications, it is important to monitor changes in a directory.
 
-This use case introduces the Java File API, which will be used in the upcoming Employee Payroll File I/O use cases.
+Instead of repeatedly checking the folder manually, Java provides the **WatchService** API to automatically detect file system events.
+
+This use case demonstrates how to watch a directory and receive notifications whenever files are created, modified, or deleted.
 
 ---
 
@@ -38,7 +36,7 @@ EmployeePayrollSystem
 │                       ├── EmployeePayrollData.java
 │                       ├── EmployeePayrollService.java
 │                       ├── EmployeePayrollSystem.java
-│                       └── FileOperationsDemo.java
+│                       └── WatchServiceDemo.java
 │
 ├── README.md
 └── .gitignore
@@ -48,17 +46,17 @@ EmployeePayrollSystem
 
 # Class
 
-## FileOperationsDemo
+## WatchServiceDemo
 
 ### Responsibilities
 
-- Check whether a file or directory exists.
-- Create directories.
-- Create empty files.
-- Delete files.
-- Verify file deletion.
-- List all files and directories.
-- Display files based on extension.
+- Create a directory if it does not exist.
+- Create a WatchService object.
+- Register a directory for monitoring.
+- Detect file creation events.
+- Detect file modification events.
+- Detect file deletion events.
+- Continuously monitor the directory for changes.
 
 ---
 
@@ -66,104 +64,91 @@ EmployeePayrollSystem
 
 ## Path
 
-Represents the location of a file or directory.
+Represents the location of the directory to monitor.
 
 Example:
 
 ```java
-Path path = Paths.get("PayrollFiles");
+Path folder = Paths.get("PayrollFiles");
 ```
 
 ---
 
-## Paths
+## FileSystems
 
-Creates `Path` objects.
+Creates the default file system.
 
 Example:
 
 ```java
-Paths.get("PayrollFiles");
+WatchService watchService =
+        FileSystems.getDefault().newWatchService();
 ```
 
 ---
 
-## Files
+## WatchService
 
-Provides utility methods for file operations.
-
-Methods used:
-
-- `exists()`
-- `createDirectories()`
-- `createFile()`
-- `delete()`
-- `newDirectoryStream()`
+Monitors the registered directory for changes.
 
 ---
 
-## DirectoryStream
+## WatchKey
 
-Used to iterate through files inside a directory.
+Represents a registration with the WatchService.
 
-Example:
+It is used to retrieve file system events.
 
-```java
-DirectoryStream<Path> stream =
-        Files.newDirectoryStream(directory);
-```
+---
+
+## WatchEvent
+
+Represents an individual file system event.
+
+Supported events:
+
+- ENTRY_CREATE
+- ENTRY_MODIFY
+- ENTRY_DELETE
 
 ---
 
 # Features Implemented
 
-- Check whether a file exists.
-- Create a new directory.
-- Create an empty file.
-- Delete a file.
-- Verify file deletion.
-- List all files and directories.
-- Filter files using a file extension.
+- Create directory if it does not exist.
+- Monitor a directory continuously.
+- Detect file creation.
+- Detect file modification.
+- Detect file deletion.
+- Display event details on the console.
 
 ---
 
 # Program Flow
 
 1. Start the application.
-2. Check whether the directory exists.
-3. Create the directory if it does not exist.
-4. Create an empty file.
-5. Verify the file exists.
-6. Display all files in the directory.
-7. Display only `.txt` files.
-8. Delete the file.
-9. Verify the file no longer exists.
-10. End the program.
+2. Create the directory if it does not exist.
+3. Create a WatchService object.
+4. Register the directory with the WatchService.
+5. Wait for file system events.
+6. Detect Create, Modify, and Delete operations.
+7. Display the event on the console.
+8. Continue monitoring the directory.
 
 ---
 
 # Sample Output
 
 ```text
-Checking if path exists: false
+Watching Folder:
 
-Directory created:
 C:\Users\Jyothish\PayrollFiles
 
-Empty file created:
-employee.txt
+ENTRY_CREATE -> employee.txt
 
-All Files
+ENTRY_MODIFY -> employee.txt
 
-employee.txt
-
-Files with .txt extension
-
-employee.txt
-
-File deleted successfully.
-
-File exists after deletion: false
+ENTRY_DELETE -> employee.txt
 ```
 
 ---
@@ -173,31 +158,30 @@ File exists after deletion: false
 - Java NIO (`java.nio.file`)
 - Path
 - Paths
-- Files
-- DirectoryStream
-- Exception Handling (`IOException`)
+- FileSystems
+- WatchService
+- WatchKey
+- WatchEvent
 - Loops
-- Conditional Statements
+- Exception Handling (`IOException`, `InterruptedException`)
 
 ---
 
 # Learning Outcome
 
-After completing UC2, you will understand how to:
+After completing UC3, you will understand how to:
 
-- Work with files and directories.
-- Create and delete files.
-- Check whether a file exists.
-- List files inside a directory.
-- Filter files using extensions.
-- Use the Java NIO File API.
+- Monitor a directory using Java.
+- Detect file system events.
+- Use the Java WatchService API.
+- Build applications that automatically respond to file changes.
 
 ---
 
 # Git Branch
 
 ```text
-feature/UC2-FileOperations
+feature/UC3-WatchService
 ```
 
 ---
@@ -205,5 +189,7 @@ feature/UC2-FileOperations
 # Commit Message
 
 ```text
-feat(UC2): demonstrate basic file operations using Java NIO
+feat(UC3): implement watch service to monitor directory changes
 ```
+
+---
