@@ -1,25 +1,20 @@
-# Java IO - UC4: Write Employee Payroll to a File
+# Java IO - UC5: Read Employee Payroll from a File
 
 ## Objective
 
-Implement a Java program to store **Employee Payroll** information in a file using the **Java NIO (New Input/Output) API**.
+Implement a Java program to read **Employee Payroll** information from a text file using the **Java NIO (New Input/Output) API**.
 
-The application creates Employee Payroll objects, writes them to a text file, and verifies the write operation by counting the number of employee entries.
+The application reads employee payroll records from the file, displays them on the console, and counts the total number of employee entries.
 
 ---
 
 # Problem Statement
 
-The Employee Payroll application currently stores employee information only in memory.
+The Employee Payroll application can store employee payroll information in a file (UC4).
 
-To make the data persistent, the application should write employee payroll details into a file using Java NIO.
+This use case extends the application by reading the stored employee payroll data from the file and displaying it on the console.
 
-This use case demonstrates how to:
-
-- Create Employee Payroll objects.
-- Store employee data in a collection.
-- Write employee payroll data into a text file.
-- Count the number of employee records written to the file.
+The application also counts the number of employee records to ensure that the file has been read successfully.
 
 ---
 
@@ -36,7 +31,8 @@ EmployeePayrollSystem
 │                   └── employeepayroll
 │                       ├── EmployeePayrollData.java
 │                       ├── EmployeePayrollService.java
-│                       └── EmployeePayrollSystem.java
+│                       ├── EmployeePayrollSystem.java
+│                       └── EmployeePayrollFileReader.java
 │
 ├── PayrollFiles
 │   └── employee-payroll.txt
@@ -49,42 +45,15 @@ EmployeePayrollSystem
 
 # Classes
 
-## EmployeePayrollData
+## EmployeePayrollFileReader
 
 ### Responsibilities
 
-- Store employee information.
-- Provide a constructor.
-- Convert employee details into a string using the `toString()` method.
-
-### Fields
-
-- Employee ID
-- Employee Name
-- Employee Salary
-
----
-
-## EmployeePayrollService
-
-### Responsibilities
-
-- Store employee objects in a list.
-- Add employees to the payroll.
-- Create the payroll directory if it does not exist.
-- Write employee payroll details into a text file.
-- Count the number of employee records.
-
----
-
-## EmployeePayrollSystem
-
-### Responsibilities
-
-- Start the application.
-- Create employee payroll objects.
-- Add employees to the payroll service.
-- Write employee payroll data to the file.
+- Locate the employee payroll file.
+- Read all employee payroll records.
+- Display each employee record on the console.
+- Count the total number of employee entries.
+- Handle file reading exceptions.
 
 ---
 
@@ -92,24 +61,24 @@ EmployeePayrollSystem
 
 ## Path
 
-Represents the location of a file or directory.
+Represents the location of the payroll file.
 
 Example:
 
 ```java
-Path file = Paths.get("PayrollFiles", "employee-payroll.txt");
+Path filePath = Paths.get("PayrollFiles", "employee-payroll.txt");
 ```
 
 ---
 
 ## Paths
 
-Creates `Path` objects.
+Creates a `Path` object.
 
 Example:
 
 ```java
-Paths.get("PayrollFiles");
+Paths.get("PayrollFiles", "employee-payroll.txt");
 ```
 
 ---
@@ -120,60 +89,59 @@ Provides utility methods for file operations.
 
 Methods used:
 
-- `exists()`
-- `createDirectories()`
-- `write()`
+- `readAllLines()`
 
 ---
 
 # Collection Used
 
-## ArrayList
+## List<String>
 
 ```java
-List<EmployeePayrollData>
+List<String> lines
 ```
 
-Stores multiple employee payroll objects before writing them to the file.
+Stores all the lines read from the employee payroll file.
 
 ---
 
 # Features Implemented
 
-- Create Employee Payroll objects.
-- Store employee objects in a list.
-- Create a directory if it does not exist.
-- Write employee payroll data to a text file.
-- Count the number of employee entries.
-- Verify successful file creation.
+- Read employee payroll data from a text file.
+- Display all employee payroll records.
+- Count the number of employee records.
+- Handle file reading errors.
 
 ---
 
 # Program Flow
 
 1. Start the application.
-2. Create employee payroll objects.
-3. Store employees in a list.
-4. Create the payroll directory if it does not exist.
-5. Create the payroll file.
-6. Write employee payroll data into the file.
-7. Count the number of employee records.
-8. Display a success message.
-9. End the program.
+2. Locate the employee payroll file.
+3. Read all employee records from the file.
+4. Display each employee record.
+5. Count the total number of employee entries.
+6. Display the total number of employees.
+7. End the program.
 
 ---
 
 # Sample Output
 
 ```text
-Employee Payroll Written Successfully.
+Employee Payroll Data
+---------------------
 
-Number of Employees : 3
+101,Jyothish,50000.0
+102,Rahul,45000.0
+103,Kiran,60000.0
+
+Total Employees : 3
 ```
 
 ---
 
-# employee-payroll.txt
+# Sample File (employee-payroll.txt)
 
 ```text
 101,Jyothish,50000.0
@@ -190,29 +158,26 @@ Number of Employees : 3
 - Paths
 - Files
 - List
-- ArrayList
-- Constructors
-- Method Overriding (`toString()`)
+- Enhanced For Loop
 - Exception Handling (`IOException`)
 
 ---
 
 # Learning Outcome
 
-After completing UC4, you will understand how to:
+After completing UC5, you will understand how to:
 
-- Store Java objects in a collection.
-- Write data to a file using Java NIO.
-- Create directories programmatically.
-- Persist application data.
-- Verify file operations by counting employee entries.
+- Read data from a file using Java NIO.
+- Display file contents on the console.
+- Count the number of records in a file.
+- Handle file reading exceptions.
 
 ---
 
 # Git Branch
 
 ```text
-feature/UC4-WriteEmployeePayrollToFile
+feature/UC5-ReadEmployeePayrollFromFile
 ```
 
 ---
@@ -220,5 +185,7 @@ feature/UC4-WriteEmployeePayrollToFile
 # Commit Message
 
 ```text
-feat(UC4): write employee payroll data to file using Java NIO
+feat(UC5): read employee payroll data from file using Java NIO
 ```
+
+---
